@@ -81,7 +81,7 @@ describe("GET /signatures/:epoch", () => {
   });
 });
 
-describe.skip("PUT /signatures/:epoch", () => {
+describe("PUT /signatures/:epoch", () => {
   const passingEpochId = 1614096121305;
   const passingSignature = {
     epochId: passingEpochId,

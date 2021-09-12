@@ -5,7 +5,9 @@ import {
   getAllSignatures,
   insertSignature,
   removeSignatureByEpoch,
+  updateSignatureByEpoch
 } from "./signature/model";
+import { ADDRGETNETWORKPARAMS } from "dns";
 
 const app = express();
 
@@ -91,7 +93,29 @@ app.delete("/signatures/:epoch", (req, res) => {
     res.status(404).json({
       status: "fail",
       data: {
-        epochId: "Could not find a signature with that epoch identifier",
+        epochId: "Could not find a signature with that epoch identifier to delete",
+      },
+    });
+  }
+});
+
+
+app.put("/signatures/:epoch", (req, res) => {
+  const epochId = parseInt(req.params.epoch); // params are string type
+  const updateProperties = req.body
+  const signature = updateSignatureByEpoch(epochId, updateProperties)
+  if (signature) {
+    res.status(200).json({
+      status: "success",
+      data: {
+        signature,
+      }
+    });
+  } else {
+    res.status(404).json({
+      status: "fail",
+      data: {
+        epochId: "Could not find a signature with that epoch identifier to update",
       },
     });
   }
